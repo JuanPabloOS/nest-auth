@@ -1,40 +1,41 @@
 import {
-  Body,
   Controller,
-  Delete,
-  Get,
-  Param,
   Post,
-  UseGuards,
+  Body,
+  Get,
+  Put,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from './user.entity';
-import { CreateUserDto } from './userDTO';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private service: UsersService) {}
 
   @Get()
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  getUsers() {
+    return this.service.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<User> {
-    return this.userService.findOne(id);
+  get(@Param() params) {
+    return this.service.findOne(params.id);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
-  }
+  // @Post()
+  // create(@Body() user: User) {
+  //   return this.service.c(user);
+  // }
 
-  // @UseGuards(AuthGuard('jwt'))
+  // @Put()
+  // update(@Body() user: User) {
+  //   return this.service.updateUser(user);
+  // }
+
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    this.userService.remove(id);
+  deleteUser(@Param() params) {
+    return this.service.remove(params.id);
   }
 }
