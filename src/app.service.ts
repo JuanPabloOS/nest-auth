@@ -5,9 +5,11 @@ export class AppService {
   getHello(): string {
     return 'Hello World Amiwos x2!';
   }
-  getAuth(): any {
+  getAuth(id: string, token: string): any {
     return {
       payload: 'Succesfully attempt',
+      userID: id,
+      token: token,
     };
   }
 }

@@ -15,7 +15,8 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/auth')
   getAuth(@Req() request: Request): string {
-    console.log(request);
-    return this.appService.getAuth();
+    const userID = request['user'].sub;
+    const token = request.headers.authorization.split('Bearer ')[1];
+    return this.appService.getAuth(userID, token);
   }
 }
